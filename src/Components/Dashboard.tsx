@@ -166,16 +166,9 @@ export const Dashboard:FC<{children:ReactNode}> = ({ children}) => {
         <div className="flex flex-col items-stretch h-full lg:pl-64">
           <main className="flex-1">
             <div className="py-6 h-full flex flex-col justify-between items-stretch grow">
-
-
               <div className=" _messages w-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 overflow-y-auto">
                 {children}
-                <div>1</div>
-                <div>1</div>
-                <div>1</div>
-                <div>1</div>
               </div>
-                <InputBar onSubmit={()=>{}} />
             </div>
           </main>
         </div>
