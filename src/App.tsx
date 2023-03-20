@@ -1,9 +1,13 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import {Dashboard} from "./Components/Dashboard";
 import {OverlayModal} from "./Components/OverlayModal";
 import {InputBar} from "./Components/InputBar";
 import {Configuration, OpenAIApi} from "openai";
 import {ChatCompletionRequestMessage} from "openai/api";
+import hljs from 'highlight.js';
+import 'highlight.js/styles/atom-one-dark.css';
+const showdown = require('showdown');
+const converter = new showdown.Converter();
 
 const App: FC = () => {
 
@@ -13,6 +17,9 @@ const App: FC = () => {
 
     const [open, setOpen] = React.useState<boolean>(api_key === undefined || api_key === null)
 
+    useEffect(() => {
+        hljs.highlightAll()
+    },[messages])
     function handle_submit(e: React.FormEvent<HTMLFormElement>) {
 
         const configuration = new Configuration({
@@ -57,16 +64,17 @@ const App: FC = () => {
 
     }
 
+    let parsed_messages = messages.map((message,index) => {
+        return <div className={'my-8'} key={index} dangerouslySetInnerHTML={{__html:converter.makeHtml(message.content)}}/>
+    })
+
     return (
 
         <>
             <Dashboard>
 
                 <div>
-                    {messages.map((message,index) => {
-                        return <div key={index}>{message.content}</div>
-                    })
-                    }
+                    {parsed_messages.map((message,index) => message)}
 
                 </div>
                 <InputBar onSubmit={handle_submit}/>
